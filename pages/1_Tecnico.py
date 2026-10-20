@@ -8,9 +8,10 @@ import requests
 import streamlit as st
 
 
-BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000").rstrip("/")
+BACKEND_URL = (os.getenv("BACKEND_URL") or "http://localhost:8000").strip().rstrip("/")
 if not BACKEND_URL.startswith(("http://", "https://")):
     BACKEND_URL = f"https://{BACKEND_URL}"
+BACKEND_REQUEST_TIMEOUT = 120
 LIMA_TZ = timezone(timedelta(hours=-5))
 STATUS_LABELS = {
     "requested": "Pendiente de disponibilidad",
@@ -58,7 +59,7 @@ if not st.session_state.staff_token:
             response = requests.get(
                 f"{BACKEND_URL}/api/staff/appointments",
                 headers={"X-Staff-Token": token},
-                timeout=10,
+                timeout=BACKEND_REQUEST_TIMEOUT,
             )
             if response.status_code == 401:
                 st.error("La clave no es válida.")
@@ -82,7 +83,7 @@ def availability_queue() -> None:
         response = requests.get(
             f"{BACKEND_URL}/api/staff/appointments",
             headers={"X-Staff-Token": st.session_state.staff_token},
-            timeout=10,
+            timeout=BACKEND_REQUEST_TIMEOUT,
         )
         if response.status_code == 401:
             st.session_state.staff_token = ""
@@ -144,7 +145,7 @@ def availability_queue() -> None:
                 f"{BACKEND_URL}/api/staff/appointments/{selected_id}",
                 json={"status": decision},
                 headers={"X-Staff-Token": st.session_state.staff_token},
-                timeout=10,
+                timeout=BACKEND_REQUEST_TIMEOUT,
             )
             if updated.status_code >= 400:
                 st.error(api_error(updated))

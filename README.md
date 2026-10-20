@@ -32,3 +32,9 @@ docker run --rm -p 8501:8501 -e BACKEND_URL=https://URL-PUBLICA-DEL-BACKEND evol
 ## Despliegue en Render
 
 El archivo `render.yaml` configura el servicio Streamlit. Conecta este repositorio como Blueprint y define `BACKEND_URL` con la URL HTTPS del backend publicado. En el panel de Render, limita el acceso al servicio según las necesidades del proyecto.
+
+## Arranque en servicios gratuitos
+
+Render y Neon pueden suspender sus servicios cuando permanecen inactivos. El primer mensaje o la primera solicitud de cita puede tardar hasta un minuto mientras despiertan. El frontend espera hasta 120 segundos para permitir ese arranque; no cierres la página ni envíes repetidamente el mismo mensaje durante ese intervalo.
+
+En Render configura `BACKEND_URL` exactamente como la URL pública del backend, por ejemplo `https://evol-repair-api.onrender.com`, sin añadir `/api`.

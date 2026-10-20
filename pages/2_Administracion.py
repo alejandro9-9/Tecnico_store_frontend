@@ -8,9 +8,10 @@ import requests
 import streamlit as st
 
 
-BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000").rstrip("/")
+BACKEND_URL = (os.getenv("BACKEND_URL") or "http://localhost:8000").strip().rstrip("/")
 if not BACKEND_URL.startswith(("http://", "https://")):
     BACKEND_URL = f"https://{BACKEND_URL}"
+BACKEND_REQUEST_TIMEOUT = 120
 LIMA_TZ = timezone(timedelta(hours=-5))
 STATUS_LABELS = {
     "requested": "Pendiente de confirmación", "scheduled": "Programada", "confirmed": "Confirmada",
@@ -45,7 +46,7 @@ if not st.session_state.admin_token:
         login = st.form_submit_button("Ingresar", type="primary")
     if login:
         try:
-            response = requests.get(f"{BACKEND_URL}/api/admin/appointments", headers=headers(token), timeout=10)
+            response = requests.get(f"{BACKEND_URL}/api/admin/appointments", headers=headers(token), timeout=BACKEND_REQUEST_TIMEOUT)
             if response.status_code == 401:
                 st.error("La clave no es válida.")
             else:
@@ -65,13 +66,13 @@ if st.button("Cerrar sesión", key="admin_logout"):
 st.subheader("Precios por modelo y reparación")
 st.caption("Registra el costo exacto de una reparación para un teléfono específico. El chat usa este precio cuando coinciden modelo y reparación.")
 try:
-    services_response = requests.get(f"{BACKEND_URL}/api/services", timeout=10)
+    services_response = requests.get(f"{BACKEND_URL}/api/services", timeout=BACKEND_REQUEST_TIMEOUT)
     services_response.raise_for_status()
     services = services_response.json()
-    model_catalog_response = requests.get(f"{BACKEND_URL}/api/models", timeout=10)
+    model_catalog_response = requests.get(f"{BACKEND_URL}/api/models", timeout=BACKEND_REQUEST_TIMEOUT)
     model_catalog_response.raise_for_status()
     model_catalog = model_catalog_response.json()
-    model_prices_response = requests.get(f"{BACKEND_URL}/api/admin/model-prices", headers=headers(), timeout=10)
+    model_prices_response = requests.get(f"{BACKEND_URL}/api/admin/model-prices", headers=headers(), timeout=BACKEND_REQUEST_TIMEOUT)
     model_prices_response.raise_for_status()
     model_prices = model_prices_response.json()
 except requests.RequestException:
@@ -131,7 +132,7 @@ if services:
             try:
                 saved_price = requests.put(
                     f"{BACKEND_URL}/api/admin/model-prices",
-                    headers=headers(), json=payload, timeout=10,
+                    headers=headers(), json=payload, timeout=BACKEND_REQUEST_TIMEOUT,
                 )
                 if saved_price.status_code >= 400:
                     st.error(api_error(saved_price))
@@ -145,7 +146,7 @@ if services:
 @st.fragment(run_every="5s")
 def appointment_view() -> None:
     try:
-        response = requests.get(f"{BACKEND_URL}/api/admin/appointments", headers=headers(), timeout=10)
+        response = requests.get(f"{BACKEND_URL}/api/admin/appointments", headers=headers(), timeout=BACKEND_REQUEST_TIMEOUT)
         if response.status_code == 401:
             st.session_state.admin_token = ""
             st.error("La sesión expiró. Ingresa nuevamente.")
@@ -200,7 +201,7 @@ if submit_block:
             f"{BACKEND_URL}/api/admin/blocks",
             headers=headers(),
             json={"starts_at": starts_at.isoformat(), "ends_at": ends_at.isoformat(), "reason": reason.strip() or "Horario no disponible"},
-            timeout=10,
+            timeout=BACKEND_REQUEST_TIMEOUT,
         )
         if response.status_code >= 400:
             st.error(api_error(response))
@@ -212,7 +213,7 @@ if submit_block:
 
 st.subheader("Horarios bloqueados")
 try:
-    response = requests.get(f"{BACKEND_URL}/api/admin/blocks", headers=headers(), timeout=10)
+    response = requests.get(f"{BACKEND_URL}/api/admin/blocks", headers=headers(), timeout=BACKEND_REQUEST_TIMEOUT)
     response.raise_for_status()
     blocks = response.json()
 except requests.RequestException:
@@ -229,7 +230,7 @@ if blocks:
         left.write(f"**{starts:%d/%m/%Y %H:%M}–{ends:%H:%M}** · {block['reason']}")
         if right.button("Desbloquear", key=f"unblock_{block['id']}"):
             try:
-                removed = requests.delete(f"{BACKEND_URL}/api/admin/blocks/{block['id']}", headers=headers(), timeout=10)
+                removed = requests.delete(f"{BACKEND_URL}/api/admin/blocks/{block['id']}", headers=headers(), timeout=BACKEND_REQUEST_TIMEOUT)
                 removed.raise_for_status()
                 st.rerun()
             except requests.RequestException:

@@ -9,9 +9,10 @@ import requests
 import streamlit as st
 
 
-BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000").rstrip("/")
+BACKEND_URL = (os.getenv("BACKEND_URL") or "http://localhost:8000").strip().rstrip("/")
 if not BACKEND_URL.startswith(("http://", "https://")):
     BACKEND_URL = f"https://{BACKEND_URL}"
+BACKEND_REQUEST_TIMEOUT = 120
 DISCLAIMER = (
     "Solo mostramos importes publicados y registrados para ese modelo y reparación. "
     "La cotización final requiere diagnóstico y confirmación del técnico."
@@ -310,7 +311,9 @@ if prompt:
                 response = requests.post(
                     f"{BACKEND_URL}/api/chat",
                     json=payload,
-                    timeout=45,
+                    # Render and Neon may both need time to wake up. Do not
+                    # retry this POST automatically because it creates a quote.
+                    timeout=BACKEND_REQUEST_TIMEOUT,
                 )
                 response.raise_for_status()
                 result = response.json()
@@ -330,6 +333,13 @@ if prompt:
                         "model": result.get("model") or "",
                         "issue": result.get("issue_name") or result.get("issue_code") or "Diagnóstico técnico",
                     }
+            except requests.Timeout:
+                answer = (
+                    "El backend está tardando en despertar. Render y Neon pueden "
+                    "necesitar hasta un minuto cuando estuvieron inactivos. "
+                    "Espera unos segundos y vuelve a enviar el mensaje."
+                )
+                st.session_state.last_quote = None
             except requests.RequestException as exc:
                 detail = "No fue posible conectar con el backend."
                 if getattr(exc, "response", None) is not None:
@@ -399,7 +409,7 @@ if st.session_state.booking_form_ready:
                 saved = requests.post(
                     f"{BACKEND_URL}/api/appointments",
                     json=appointment_payload,
-                    timeout=15,
+                    timeout=BACKEND_REQUEST_TIMEOUT,
                 )
                 saved.raise_for_status()
                 appointment = saved.json()
@@ -419,6 +429,10 @@ if st.session_state.booking_form_ready:
                 st.session_state.requested_appointment_date = None
                 st.session_state.requested_appointment_time = None
                 st.rerun()
+            except requests.Timeout:
+                st.error(
+                    "El backend está despertando. Espera unos segundos y vuelve a enviar la solicitud."
+                )
             except requests.RequestException as exc:
                 detail = "No se pudo guardar la solicitud. Inténtalo nuevamente."
                 if getattr(exc, "response", None) is not None:
