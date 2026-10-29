@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root { font-family: 'DM Sans', sans-serif; color: #182438; background: #f4f6f8; font-synthesis: none; text-rendering: optimizeLegibility; --navy: #101b2b; --blue: #234e70; --coral: #f26654; --muted: #718096; --line: #e4e9ee; --surface: #fff; --green: #1e8c67; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 340px; min-height: 100vh; }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+.app-shell { min-height: 100vh; display: flex; flex-direction: column; }
+.topbar { height: 76px; background: #fff; border-bottom: 1px solid var(--line); display: flex; align-items: center; padding: 0 max(4vw, calc((100vw - 1360px)/2)); gap: 54px; position: sticky; top: 0; z-index: 5; }
+.brand { display: flex; align-items: center; text-decoration: none; flex: 0 0 auto; }
+.brand img { display: block; width: 164px; height: 43px; object-fit: contain; }
+.main-nav { height: 100%; display: flex; gap: 8px; align-items: center; flex: 1; }
+.nav-link { height: 42px; display: inline-flex; align-items: center; gap: 9px; padding: 0 15px; border: 0; border-radius: 9px; color: #697688; background: transparent; font-size: 13px; font-weight: 600; transition: .16s; }
+.nav-link:hover { color: var(--navy); background: #f4f6f8; }.nav-link.active { color: var(--blue); background: #edf4f8; }.nav-icon { font-size: 17px; }
+.api-status { display: inline-flex; align-items: center; gap: 8px; color: #788596; font-size: 11px; white-space: nowrap; }.api-status i { width: 7px; height: 7px; background: #d4a944; border-radius: 50%; }.api-status.online i { background: #34a77d; box-shadow: 0 0 0 3px #e5f5ee; }.api-status.offline i { background: var(--coral); }
+.main-content { width: min(1280px, 92vw); margin: 0 auto; padding: 42px 0 72px; flex: 1; }
+.footer { min-height: 55px; padding: 0 max(4vw, calc((100vw - 1280px)/2)); display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); color: #8792a0; background: #fff; font-size: 11px; }
+.footer img { display: block; width: 128px; height: 34px; object-fit: contain; }
+.card { background: var(--surface); border: 1px solid #e7ebef; border-radius: 15px; box-shadow: 0 5px 20px rgba(24,36,56,.035); }

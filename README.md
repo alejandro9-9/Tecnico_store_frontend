@@ -1,40 +1,39 @@
-# EVOL — frontend
+# Frontend React
 
-Interfaz de cliente para cotizar reparaciones y solicitar citas, con páginas separadas para Técnico y Administración.
+Interfaz React 19 con Vite. Incluye cotización para clientes y paneles de técnico y administración.
 
-## Tecnologías
+## Organización del código
 
-- Python
-- Streamlit
-- Requests para comunicarse con la API FastAPI mediante HTTP/JSON
-
-## Ejecución local
-
-Desde esta carpeta:
-
-```powershell
-py -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-$env:BACKEND_URL="http://localhost:8000"
-streamlit run app.py
+```text
+src/
+├── app/                  # composición de la aplicación y navegación
+├── components/
+│   ├── auth/             # acceso por rol y sesión local
+│   └── common/           # encabezados, métricas, estados vacíos y carga
+├── features/
+│   ├── chat/              # chat de cotización y solicitud de cita
+│   ├── technician/        # disponibilidad y decisiones del técnico
+│   └── admin/             # citas, precios específicos y bloqueos
+├── services/              # comunicación HTTP con el backend
+├── styles/                # base, chat, paneles, responsive y tema oscuro
+└── utils/                  # etiquetas y formatos compartidos
 ```
 
-La API debe estar activa. La variable `BACKEND_URL` debe apuntar al backend; en Render se configura con la URL pública del servicio backend.
-
-## Docker
+Cada vista de negocio está aislada en `features/`; `app/App.jsx` solo controla navegación y estado de conexión. Los componentes compartidos no hacen llamadas a la API y el cliente HTTP está centralizado en `services/api.js`.
 
 ```powershell
-docker build -t evol-frontend .
-docker run --rm -p 8501:8501 -e BACKEND_URL=https://URL-PUBLICA-DEL-BACKEND evol-frontend
+npm ci
+$env:VITE_API_URL="http://localhost:8000"
+npm run dev
 ```
 
-## Despliegue en Render
+Abre `http://localhost:5173`. La API ASP.NET Core debe estar iniciada en el puerto 8000.
 
-El archivo `render.yaml` configura el servicio Streamlit. Conecta este repositorio como Blueprint y define `BACKEND_URL` con la URL HTTPS del backend publicado. En el panel de Render, limita el acceso al servicio según las necesidades del proyecto.
+Para generar el sitio estático que se despliega en Render:
 
-## Arranque en servicios gratuitos
+```powershell
+npm ci
+npm run build
+```
 
-Render y Neon pueden suspender sus servicios cuando permanecen inactivos. El primer mensaje o la primera solicitud de cita puede tardar hasta un minuto mientras despiertan. El frontend espera hasta 120 segundos para permitir ese arranque; no cierres la página ni envíes repetidamente el mismo mensaje durante ese intervalo.
-
-En Render configura `BACKEND_URL` exactamente como la URL pública del backend, por ejemplo `https://evol-repair-api.onrender.com`, sin añadir `/api`.
+Render publica `dist/`. El `render.yaml` apunta `VITE_API_URL` a `https://evol-repair-api.onrender.com`; el primer pedido puede tardar mientras el servicio gratuito del backend despierta.

@@ -1,12 +1,9 @@
 services:
   - type: web
     name: evol-repair-chat
-    plan: free
-    runtime: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: streamlit run app.py --server.address 0.0.0.0 --server.port $PORT
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.12.8
-      - key: BACKEND_URL
+      - key: VITE_API_URL
         value: https://evol-repair-api.onrender.com

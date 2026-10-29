@@ -1,0 +1,49 @@
+/* Theme control and dark appearance */
+.theme-dark { color-scheme: dark; color: #e7edf5; background: #0d1420; --navy: #f0f4f9; --blue: #89bce1; --coral: #ff7869; --muted: #a3b0c0; --line: #2a3748; --surface: #151e2b; --green: #6fd3a7; }
+.theme-dark .topbar, .theme-dark .footer { background: #111a27; border-color: #253244; }
+.theme-dark .brand, .theme-dark .page-heading h1, .theme-dark .side-card h2, .theme-dark .section-heading h2, .theme-dark .login-card h1 { color: #f0f4f9; }
+.theme-dark .brand small, .theme-dark .eyebrow { color: #9baabd; }
+.theme-dark .nav-link { color: #b0bdcd; }
+.theme-dark .nav-link:hover { color: #f2f6fb; background: #1c2939; }
+.theme-dark .nav-link.active, .theme-dark .heading-icon, .theme-dark .metric-icon, .theme-dark .login-emblem { color: #a8d3f1; background: #1c3042; }
+.theme-dark .api-status { color: #b0bdcd; }
+.theme-dark .api-status.online i { box-shadow: 0 0 0 3px #18372f; }
+.theme-dark .card { background: #151e2b; border-color: #263447; box-shadow: 0 12px 35px rgba(0,0,0,.18); }
+.theme-dark .page-heading p, .theme-dark .login-card>p { color: #aeb9c8; }
+.theme-dark .button-quiet { color: #c4d0de; background: #192433; border-color: #354459; }
+.theme-dark .button-quiet:hover { color: #fff; background: #223145; }
+.theme-dark .button-primary { color: #07131e; background: #91c4e8; box-shadow: 0 4px 12px rgba(91,157,204,.16); }
+.theme-dark .button-primary:hover:not(:disabled) { color: #07131e; background: #add7f3; }
+.theme-dark .button-danger { color: #ffaaa0; background: #341f25; border-color: #563039; }
+.theme-dark .message-bubble { color: #dce5ef; background: #202c3b; }
+.theme-dark .message-row.user .message-bubble { color: #f6f8fb; background: #263b50; }
+.theme-dark .avatar.user { color: #d5dfeb; background: #293748; }
+.theme-dark .quote-actions, .theme-dark .booking-form, .theme-dark .chat-header { border-color: #2a3748; }
+.theme-dark .quote-summary strong, .theme-dark .quote-summary b, .theme-dark .steps strong, .theme-dark .metric-card strong, .theme-dark .decision-info h3 { color: #edf2f8; }
+.theme-dark .quote-summary small, .theme-dark .steps small, .theme-dark .metric-card small, .theme-dark .section-heading p, .theme-dark .booking-title p { color: #a5b2c2; }
+.theme-dark label { color: #c2ccda; }
+.theme-dark input, .theme-dark select { color: #edf2f8; background: #101925; border-color: #354459; }
+.theme-dark input::placeholder { color: #8695a7; }
+.theme-dark input:focus, .theme-dark select:focus { border-color: #78afd7; box-shadow: 0 0 0 3px rgba(103,165,207,.15); }
+.theme-dark .composer { background: #101925; border-color: #354459; }
+.theme-dark .composer:focus-within { border-color: #78afd7; box-shadow: 0 0 0 3px rgba(103,165,207,.15); }
+.theme-dark .composer input { background: transparent; }
+.theme-dark .composer button { color: #07131e; background: #91c4e8; }
+.theme-dark .composer button:disabled { color: #8290a0; background: #273445; }
+.theme-dark .side-note { color: #e9c98e; background: #2c261c; }
+.theme-dark .side-note>span { border-color: #987a43; }
+.theme-dark .success-banner { color: #a3e3c4; background: #173128; border-color: #285441; }
+.theme-dark .error-banner { color: #ffb0a7; background: #351f24; border-color: #593139; }
+.theme-dark th { color: #aab8c9; background: #1d2938; border-color: #304055; }
+.theme-dark td { color: #d0d9e4; border-color: #293648; }
+.theme-dark td small, .theme-dark .block-row small, .theme-dark .decision-info small { color: #98a7b8; }
+.theme-dark .status-badge { color: #f0d18d; background: #3b321e; }
+.theme-dark .status-badge.confirmed { color: #9ae0bd; background: #19392d; }
+.theme-dark .status-badge.cancelled { color: #ffb0a7; background: #3a2226; }
+.theme-dark .status-badge.in_repair, .theme-dark .status-badge.diagnosing { color: #c0c8f4; background: #292f4a; }
+.theme-dark .decision-item, .theme-dark .block-list, .theme-dark .block-row { border-color: #293648; }
+.theme-dark .decision-info p, .theme-dark .block-row strong { color: #c2ccda; }
+.theme-dark .pill { color: #c0cbd9; background: #273445; }
+.theme-dark .empty-state, .theme-dark .loading-state, .theme-dark .privacy-note { color: #9baabd; }
+.theme-dark .spinner { border-color: #34445a; border-top-color: #91c4e8; }
+.theme-dark .login-key-hint code { color: #e5f2fc; background: #26394c; }

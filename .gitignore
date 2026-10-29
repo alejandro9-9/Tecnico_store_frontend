@@ -1,7 +1,7 @@
 .venv/
 venv/
+node_modules/
+dist/
 __pycache__/
 *.py[cod]
 .env
-.streamlit/secrets.toml
-.pytest_cache/
