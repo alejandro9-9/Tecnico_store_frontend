@@ -20,8 +20,8 @@ function ApiStartupScreen({ timedOut, onRetry }) {
       {!timedOut ? <>
         <span className="api-startup-spinner" aria-hidden="true" />
         <h1>Preparando TecFast</h1>
-        <p>Estamos despertando el servicio. En el plan gratuito puede tardar unos segundos en iniciar.</p>
-        <small>No cierres esta ventana; te mostraremos la aplicación cuando esté lista.</small>
+        <p>Estamos cargando los servicios de TecFast. Esto puede tardar unos segundos.</p>
+        <small>Estamos verificando la conexión y te mostraremos la aplicación cuando esté lista.</small>
       </> : <>
         <h1>Estamos tardando un poco más</h1>
         <p>El servicio todavía no está disponible. Puedes volver a intentarlo ahora.</p>
