@@ -36,4 +36,4 @@ npm ci
 npm run build
 ```
 
-Render publica `dist/`. El `render.yaml` apunta `VITE_API_URL` a `https://evol-repair-api.onrender.com`; el primer pedido puede tardar mientras el servicio gratuito del backend despierta.
+Render publica `dist/`. El `render.yaml` apunta `VITE_API_URL` a `https://tecfast-api.onrender.com`; el primer pedido puede tardar mientras el servicio gratuito del backend despierta.

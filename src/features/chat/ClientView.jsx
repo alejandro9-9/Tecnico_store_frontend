@@ -3,7 +3,7 @@ import { api } from '../../services/api.js'
 import PageHeading from '../../components/common/PageHeading.jsx'
 
 function ClientView() {
-  const [messages, setMessages] = useState([{ role: 'assistant', content: '¡Hola! Cuéntame qué le ocurre a tu celular. Si sabes la marca y el modelo, inclúyelos para consultar el precio registrado.' }])
+  const [messages, setMessages] = useState([{ role: 'assistant', content: '¡Hola! Cuéntame qué le ocurre a tu celular. Si sabes la marca y el modelo, inclúyelos para consultar un precio referencial de mercado.' }])
   const [caseMessages, setCaseMessages] = useState([])
   const [draft, setDraft] = useState('')
   const [busy, setBusy] = useState(false)
@@ -73,8 +73,8 @@ function ClientView() {
 
   return <div className="client-layout">
     <section className="chat-panel card">
-      <div className="chat-header"><PageHeading eyebrow="COTIZACIÓN EN LÍNEA" title="Cuéntanos qué le pasa" description="Te orientamos con el precio registrado para tu modelo." icon="✳" />
-        <button className="button button-quiet" disabled={busy} onClick={() => { setMessages([{ role: 'assistant', content: '¡Hola! Cuéntame qué le ocurre a tu celular. Si sabes la marca y el modelo, inclúyelos para consultar el precio registrado.' }]); setCaseMessages([]); setQuote(null); setChatStatus(''); setDevice(null); setBooking(false); setBookingDone(null); setName(''); setPhone(''); setDate(''); setTime('09:00'); setError('') }}>Nueva consulta</button>
+      <div className="chat-header"><PageHeading eyebrow="COTIZACIÓN EN LÍNEA" title="Cuéntanos qué le pasa" description="Te orientamos con un precio referencial de mercado para tu modelo." icon="✳" />
+        <button className="button button-quiet" disabled={busy} onClick={() => { setMessages([{ role: 'assistant', content: '¡Hola! Cuéntame qué le ocurre a tu celular. Si sabes la marca y el modelo, inclúyelos para consultar un precio referencial de mercado.' }]); setCaseMessages([]); setQuote(null); setChatStatus(''); setDevice(null); setBooking(false); setBookingDone(null); setName(''); setPhone(''); setDate(''); setTime('09:00'); setError('') }}>Nueva consulta</button>
       </div>
       <div className="message-list" ref={listRef}>
         {messages.map((message, index) => <div key={index} className={`message-row ${message.role}`}>
@@ -99,7 +99,7 @@ function ClientView() {
     </section>
     <aside className="side-panel">
       <div className="side-card card"><span className="eyebrow">ASÍ FUNCIONA</span><h2>Una solución clara, paso a paso.</h2>
-        <ol className="steps"><li><span>01</span><div><strong>Describe la falla</strong><small>Cuéntanos el síntoma con tus palabras.</small></div></li><li><span>02</span><div><strong>Revisamos el precio</strong><small>Usamos importes específicos registrados para el modelo.</small></div></li><li><span>03</span><div><strong>Solicita una cita</strong><small>El técnico confirma la disponibilidad.</small></div></li></ol>
+        <ol className="steps"><li><span>01</span><div><strong>Describe la falla</strong><small>Cuéntanos el síntoma con tus palabras.</small></div></li><li><span>02</span><div><strong>Revisamos el precio</strong><small>Usamos una referencia de mercado para el modelo.</small></div></li><li><span>03</span><div><strong>Solicita una cita</strong><small>El técnico confirma la disponibilidad.</small></div></li></ol>
       </div>
       <div className="side-note"><span>i</span><p>La cotización es orientativa. El costo final se confirma después de la revisión técnica.</p></div>
     </aside>

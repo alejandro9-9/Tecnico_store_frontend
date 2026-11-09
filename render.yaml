@@ -1,9 +1,9 @@
 services:
   - type: web
-    name: evol-repair-chat
+    name: tecfast-chat
     runtime: static
     buildCommand: npm ci && npm run build
     staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
-        value: https://evol-repair-api.onrender.com
+        value: https://tecfast-api.onrender.com
