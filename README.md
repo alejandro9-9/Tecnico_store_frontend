@@ -29,11 +29,21 @@ npm run dev
 
 Abre `http://localhost:5173`. La API ASP.NET Core debe estar iniciada en el puerto 8000.
 
-Para generar el sitio estático que se despliega en Render:
+Para generar el sitio estático que se despliega en Vercel:
 
 ```powershell
 npm ci
 npm run build
 ```
 
-Render publica `dist/`. El `render.yaml` apunta `VITE_API_URL` a `https://tecfast-api.onrender.com`; el primer pedido puede tardar mientras el servicio gratuito del backend despierta.
+Vercel publica `dist/`. El backend de Render puede tardar unos segundos en despertar si está en un plan que escala a cero.
+
+## Despliegue en Vercel
+
+Importa este repositorio como un proyecto Vercel. Vercel detectará Vite y usará `npm run build`, publicando `dist/`. Configura esta variable de entorno en Production, Preview y Development:
+
+```text
+VITE_API_URL=https://tecfast-api.onrender.com
+```
+
+Después de desplegar, copia la URL de Vercel en `FRONTEND_ORIGIN` dentro del servicio del backend en Render para permitir las llamadas CORS.

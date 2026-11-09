@@ -8,7 +8,7 @@ export async function api(path, { headers = {}, ...options } = {}) {
       headers: { ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...headers },
     })
   } catch {
-    throw new Error('No se pudo conectar con la API. Comprueba que el backend esté ejecutándose en http://localhost:8000.')
+    throw new Error('No se pudo conectar con la API. Verifica que el servicio backend esté disponible.')
   }
   if (response.status === 204) return null
   const contentType = response.headers.get('content-type') || ''

@@ -10,13 +10,68 @@ const tabs = [
   { id: 'admin', label: 'Administración', icon: '▦' },
 ]
 
+const API_STARTUP_WINDOW_MS = 90_000
+const API_RETRY_DELAY_MS = 4_000
+
+function ApiStartupScreen({ timedOut, onRetry }) {
+  return <main className="api-startup-shell" aria-live="polite">
+    <section className="api-startup-card">
+      <img className="api-startup-logo" src="/tecfast-logo.svg" alt="TecFast · Reparación móvil" />
+      {!timedOut ? <>
+        <span className="api-startup-spinner" aria-hidden="true" />
+        <h1>Preparando TecFast</h1>
+        <p>Estamos despertando el servicio. En el plan gratuito puede tardar unos segundos en iniciar.</p>
+        <small>No cierres esta ventana; te mostraremos la aplicación cuando esté lista.</small>
+      </> : <>
+        <h1>Estamos tardando un poco más</h1>
+        <p>El servicio todavía no está disponible. Puedes volver a intentarlo ahora.</p>
+        <button className="api-startup-button" type="button" onClick={onRetry}>Intentar de nuevo</button>
+      </>}
+    </section>
+  </main>
+}
+
 export default function App() {
   const [page, setPage] = useState('client')
   const [apiOnline, setApiOnline] = useState(null)
+  const [startupTimedOut, setStartupTimedOut] = useState(false)
+  const [retryNumber, setRetryNumber] = useState(0)
 
   useEffect(() => {
-    api('/health').then(() => setApiOnline(true)).catch(() => setApiOnline(false))
-  }, [])
+    let active = true
+    let timer
+    const startedAt = Date.now()
+
+    const checkApi = () => {
+      api('/health').then(() => {
+        if (!active) return
+        setApiOnline(true)
+        setStartupTimedOut(false)
+      }).catch(() => {
+        if (!active) return
+        if (Date.now() - startedAt >= API_STARTUP_WINDOW_MS) {
+          setApiOnline(false)
+          setStartupTimedOut(true)
+          return
+        }
+        timer = window.setTimeout(checkApi, API_RETRY_DELAY_MS)
+      })
+    }
+
+    checkApi()
+    return () => {
+      active = false
+      window.clearTimeout(timer)
+    }
+  }, [retryNumber])
+
+  if (apiOnline !== true) {
+    return <ApiStartupScreen timedOut={startupTimedOut} onRetry={() => {
+      setApiOnline(null)
+      setStartupTimedOut(false)
+      setRetryNumber(value => value + 1)
+    }} />
+  }
 
   return <div className="app-shell theme-dark">
     <header className="topbar">

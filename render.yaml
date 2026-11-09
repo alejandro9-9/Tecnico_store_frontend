@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: tecfast-chat
-    runtime: static
-    buildCommand: npm ci && npm run build
-    staticPublishPath: ./dist
-    envVars:
-      - key: VITE_API_URL
-        value: https://tecfast-api.onrender.com

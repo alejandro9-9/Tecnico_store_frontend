@@ -5,6 +5,15 @@
 body { margin: 0; min-width: 340px; min-height: 100vh; }
 button, input, select { font: inherit; }
 button { cursor: pointer; }
+.api-startup-shell { min-height: 100vh; display: grid; place-items: center; padding: 24px; color: #e7edf5; background: #0d1420; }
+.api-startup-card { width: min(100%, 500px); padding: 48px 40px; text-align: center; background: #151e2b; border: 1px solid #2a3a4e; border-radius: 20px; box-shadow: 0 24px 70px rgba(0,0,0,.28); }
+.api-startup-logo { width: 190px; height: auto; margin: 0 auto 36px; }
+.api-startup-spinner { display: block; width: 34px; height: 34px; margin: 0 auto 22px; border: 3px solid #34445a; border-top-color: #91c4e8; border-radius: 50%; animation: spin .8s linear infinite; }
+.api-startup-card h1 { margin: 0 0 12px; color: #f0f4f9; font-family: 'Manrope', sans-serif; font-size: clamp(22px, 4vw, 28px); }
+.api-startup-card p { margin: 0 auto 12px; max-width: 390px; color: #b0bdcd; line-height: 1.6; font-size: 14px; }
+.api-startup-card small { display: block; color: #8292a6; line-height: 1.5; font-size: 12px; }
+.api-startup-button { margin-top: 20px; padding: 11px 20px; border: 1px solid #78afd7; border-radius: 9px; color: #07131e; background: #91c4e8; font-weight: 700; }
+.api-startup-button:hover { background: #add7f3; }
 .app-shell { min-height: 100vh; display: flex; flex-direction: column; }
 .topbar { height: 76px; background: #fff; border-bottom: 1px solid var(--line); display: flex; align-items: center; padding: 0 max(4vw, calc((100vw - 1360px)/2)); gap: 54px; position: sticky; top: 0; z-index: 5; }
 .brand { display: flex; align-items: center; text-decoration: none; flex: 0 0 auto; }
